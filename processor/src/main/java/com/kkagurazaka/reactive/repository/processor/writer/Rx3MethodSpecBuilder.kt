@@ -7,7 +7,7 @@ import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.ParameterizedTypeName
 import javax.lang.model.element.Modifier
 
-object Rx2MethodSpecBuilder {
+object Rx3MethodSpecBuilder {
 
     fun build(definition: MethodDefinition<*>, prepareStatement: CodeBlock?): MethodSpec? {
         val builder = MethodSpec.methodBuilder(definition.methodName)
@@ -23,18 +23,18 @@ object Rx2MethodSpecBuilder {
             is MethodDefinition.Type.PlatFormTypeSetter -> {
                 return null
             }
-            is MethodDefinition.Type.Rx2Observable -> {
-                builder.returns(ParameterizedTypeName.get(Types.rx2Observable, definition.entityDefinition.className))
-                    .addCode(buildRx2ObservableCode(prepareStatement))
+            is MethodDefinition.Type.Rx3Observable -> {
+                builder.returns(ParameterizedTypeName.get(Types.rx3Observable, definition.entityDefinition.className))
+                    .addCode(buildRx3ObservableCode(prepareStatement))
             }
-            is MethodDefinition.Type.Rx2Flowable -> {
-                builder.returns(ParameterizedTypeName.get(Types.rx2Flowable, definition.entityDefinition.className))
-                    .addCode(buildRx2FlowableCode(prepareStatement))
+            is MethodDefinition.Type.Rx3Flowable -> {
+                builder.returns(ParameterizedTypeName.get(Types.rx3Flowable, definition.entityDefinition.className))
+                    .addCode(buildRx3FlowableCode(prepareStatement))
             }
         }.build()
     }
 
-    private fun buildRx2ObservableCode(prepareStatement: CodeBlock?): CodeBlock =
+    private fun buildRx3ObservableCode(prepareStatement: CodeBlock?): CodeBlock =
         CodeBlock.builder()
             .apply {
                 prepareStatement?.let { add(it) }
@@ -42,7 +42,7 @@ object Rx2MethodSpecBuilder {
             .addStatement("return serialized.hide().toObservable()")
             .build()
 
-    private fun buildRx2FlowableCode(prepareStatement: CodeBlock?): CodeBlock =
+    private fun buildRx3FlowableCode(prepareStatement: CodeBlock?): CodeBlock =
         CodeBlock.builder()
             .apply {
                 prepareStatement?.let { add(it) }

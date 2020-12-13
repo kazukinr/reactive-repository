@@ -4,13 +4,14 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 
-class JavaFieldEntityInMemoryRepositoryWithoutRx2Test {
+class JavaFieldEntityInMemoryRepositoryWithoutRx3Test {
 
-    private lateinit var repository: JavaFieldEntityInMemoryRepositoryWithoutRx2
+    private lateinit var repository: JavaFieldEntityInMemoryRepositoryWithoutRx3
 
     @Before
     fun setup() {
-        repository = JavaFieldEntityInMemoryRepositoryWithoutRx2Impl()
+        repository =
+            JavaFieldEntityInMemoryRepositoryWithoutRx3Impl()
     }
 
     @Test

@@ -5,8 +5,8 @@ import com.kkagurazaka.reactive.repository.processor.definition.MethodDefinition
 import com.kkagurazaka.reactive.repository.processor.definition.memory.InMemoryRepositoryDefinition
 import com.kkagurazaka.reactive.repository.processor.exception.ProcessingException
 import com.kkagurazaka.reactive.repository.processor.writer.RepositoryWriter
-import com.kkagurazaka.reactive.repository.processor.writer.Rx2FieldSpecsBuilder
-import com.kkagurazaka.reactive.repository.processor.writer.Rx2MethodSpecBuilder
+import com.kkagurazaka.reactive.repository.processor.writer.Rx3FieldSpecsBuilder
+import com.kkagurazaka.reactive.repository.processor.writer.Rx3MethodSpecBuilder
 import com.squareup.javapoet.*
 import javax.lang.model.element.Modifier
 
@@ -17,21 +17,21 @@ class InMemoryRepositoryWriter(context: ProcessingContext, definition: InMemoryR
         val entityDefinition = definition.entityDefinition
         val entityClassName = entityDefinition.className
         val createDefault = entityDefinition.hasEmptyConstructor
-        val hasRx2Methods = definition.hasRx2Methods
+        val hasRx3Methods = definition.hasRx3Methods
 
-        val constructor = buildConstructorMethodSpec(entityClassName, createDefault, hasRx2Methods)
+        val constructor = buildConstructorMethodSpec(entityClassName, createDefault, hasRx3Methods)
         if (constructor != null) {
             addMethod(constructor)
         }
 
         addMethods(definition.methodDefinitions.mapNotNull {
-            InMemoryNonReactiveMethodSpecBuilder.build(it, hasRx2Methods)
+            InMemoryNonReactiveMethodSpecBuilder.build(it, hasRx3Methods)
         })
 
-        if (hasRx2Methods) {
-            addFields(Rx2FieldSpecsBuilder.build(entityDefinition))
+        if (hasRx3Methods) {
+            addFields(Rx3FieldSpecsBuilder.build(entityDefinition))
             addMethods(definition.methodDefinitions.mapNotNull {
-                Rx2MethodSpecBuilder.build(it, prepareStatement = null)
+                Rx3MethodSpecBuilder.build(it, prepareStatement = null)
             })
         } else {
             addField(buildValueFieldSpec(entityClassName, createDefault))
@@ -50,9 +50,9 @@ class InMemoryRepositoryWriter(context: ProcessingContext, definition: InMemoryR
             )
         }
 
-        if (definition.hasRx2Methods && definition.has<MethodDefinition.Type.NullableSetter>()) {
+        if (definition.hasRx3Methods && definition.has<MethodDefinition.Type.NullableSetter>()) {
             throw ProcessingException(
-                "@InMemoryRepository does not accept @Nullable setter with RxJava2 integration",
+                "@InMemoryRepository does not accept @Nullable setter with RxJava3 integration",
                 definition.element
             )
         }
@@ -61,9 +61,9 @@ class InMemoryRepositoryWriter(context: ProcessingContext, definition: InMemoryR
     private fun buildConstructorMethodSpec(
         entityClassName: ClassName,
         createDefault: Boolean,
-        hasRx2Methods: Boolean
+        hasRx3Methods: Boolean
     ): MethodSpec? =
-        if (hasRx2Methods) {
+        if (hasRx3Methods) {
             MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
                 .apply {
@@ -72,7 +72,7 @@ class InMemoryRepositoryWriter(context: ProcessingContext, definition: InMemoryR
                     } else {
                         null
                     }
-                    Rx2FieldSpecsBuilder.buildInitializeStatement(createDefaultCode)
+                    Rx3FieldSpecsBuilder.buildInitializeStatement(createDefaultCode)
                         .forEach { addCode(it) }
                 }
                 .build()

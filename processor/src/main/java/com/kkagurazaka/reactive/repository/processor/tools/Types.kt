@@ -32,13 +32,13 @@ object Types {
     val preferenceManager: ClassName =
         ClassName.get("android.preference", "PreferenceManager")
 
-    val rx2Observable: ClassName =
+    val rx3Observable: ClassName =
         ClassName.get("io.reactivex.rxjava3.core", "Observable")
-    val rx2Flowable: ClassName =
+    val rx3Flowable: ClassName =
         ClassName.get("io.reactivex.rxjava3.core", "Flowable")
-    val rx2BehaviorProcessor: ClassName =
+    val rx3BehaviorProcessor: ClassName =
         ClassName.get("io.reactivex.rxjava3.processors", "BehaviorProcessor")
-    val rx2FlowableProcessor: ClassName =
+    val rx3FlowableProcessor: ClassName =
         ClassName.get("io.reactivex.rxjava3.processors", "FlowableProcessor")
 
     val prefsKey: ClassName =

@@ -37,7 +37,7 @@ class MethodDefinition<ED : EntityDefinition<out Annotation>>(
                     }
                 }
                 // method returning Rx Observable has no parameters and return Observable<Entity>
-                returnTypeName is ParameterizedTypeName && returnTypeName.rawType == Types.rx2Observable -> {
+                returnTypeName is ParameterizedTypeName && returnTypeName.rawType == Types.rx3Observable -> {
                     when {
                         element.isNullableAnnotated -> {
                             throw ProcessingException(
@@ -45,8 +45,8 @@ class MethodDefinition<ED : EntityDefinition<out Annotation>>(
                                 element
                             )
                         }
-                        returnTypeName == ParameterizedTypeName.get(Types.rx2Observable, entityClassName) -> {
-                            Type.Rx2Observable
+                        returnTypeName == ParameterizedTypeName.get(Types.rx3Observable, entityClassName) -> {
+                            Type.Rx3Observable
                         }
                         else -> {
                             val typeParameter = returnTypeName.typeArguments.single()
@@ -58,7 +58,7 @@ class MethodDefinition<ED : EntityDefinition<out Annotation>>(
                     }
                 }
                 // method returning Rx Flowable has no parameters and return Flowable<Entity>
-                returnTypeName is ParameterizedTypeName && returnTypeName.rawType == Types.rx2Flowable -> {
+                returnTypeName is ParameterizedTypeName && returnTypeName.rawType == Types.rx3Flowable -> {
                     when {
                         element.isNullableAnnotated -> {
                             throw ProcessingException(
@@ -66,8 +66,8 @@ class MethodDefinition<ED : EntityDefinition<out Annotation>>(
                                 element
                             )
                         }
-                        returnTypeName == ParameterizedTypeName.get(Types.rx2Flowable, entityClassName) -> {
-                            Type.Rx2Flowable
+                        returnTypeName == ParameterizedTypeName.get(Types.rx3Flowable, entityClassName) -> {
+                            Type.Rx3Flowable
                         }
                         else -> {
                             val typeParameter = returnTypeName.typeArguments.single()
@@ -105,8 +105,8 @@ class MethodDefinition<ED : EntityDefinition<out Annotation>>(
         object NullableGetter : Type()
         object NonNullGetter : Type()
         object PlatFormTypeGetter : Type()
-        object Rx2Observable : Type()
-        object Rx2Flowable : Type()
+        object Rx3Observable : Type()
+        object Rx3Flowable : Type()
         data class NullableSetter(val parameterName: String) : Type()
         data class NonNullSetter(val parameterName: String) : Type()
         data class PlatFormTypeSetter(val parameterName: String) : Type()

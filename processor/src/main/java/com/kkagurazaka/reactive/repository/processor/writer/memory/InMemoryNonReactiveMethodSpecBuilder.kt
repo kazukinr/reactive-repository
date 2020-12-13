@@ -8,7 +8,7 @@ import javax.lang.model.element.Modifier
 
 object InMemoryNonReactiveMethodSpecBuilder {
 
-    fun build(definition: MethodDefinition<InMemoryEntityDefinition>, hasRx2Processor: Boolean): MethodSpec? {
+    fun build(definition: MethodDefinition<InMemoryEntityDefinition>, hasRx3Processor: Boolean): MethodSpec? {
         val entityDefinition = definition.entityDefinition
 
         val builder = MethodSpec.methodBuilder(definition.methodName)
@@ -16,13 +16,13 @@ object InMemoryNonReactiveMethodSpecBuilder {
             .addAnnotation(Override::class.java)
 
         return when (val type = definition.type) {
-            is MethodDefinition.Type.Rx2Observable, is MethodDefinition.Type.Rx2Flowable -> {
+            is MethodDefinition.Type.Rx3Observable, is MethodDefinition.Type.Rx3Flowable -> {
                 return null
             }
             is MethodDefinition.Type.NullableGetter, MethodDefinition.Type.PlatFormTypeGetter -> {
                 builder.returns(entityDefinition.className)
                     .apply {
-                        if (hasRx2Processor) {
+                        if (hasRx3Processor) {
                             addCode(buildProcessorNullableGetterCode())
                         } else {
                             addCode(buildValueGetterCode())
@@ -32,7 +32,7 @@ object InMemoryNonReactiveMethodSpecBuilder {
             is MethodDefinition.Type.NonNullGetter -> {
                 builder.returns(entityDefinition.className)
                     .apply {
-                        if (hasRx2Processor) {
+                        if (hasRx3Processor) {
                             addCode(buildProcessorNonNullGetterCode(entityDefinition))
                         } else {
                             addCode(buildValueGetterCode())
@@ -40,13 +40,13 @@ object InMemoryNonReactiveMethodSpecBuilder {
                     }
             }
             is MethodDefinition.Type.NullableSetter -> {
-                builder.setupAsSetter(entityDefinition, type.parameterName, hasRx2Processor)
+                builder.setupAsSetter(entityDefinition, type.parameterName, hasRx3Processor)
             }
             is MethodDefinition.Type.NonNullSetter -> {
-                builder.setupAsSetter(entityDefinition, type.parameterName, hasRx2Processor)
+                builder.setupAsSetter(entityDefinition, type.parameterName, hasRx3Processor)
             }
             is MethodDefinition.Type.PlatFormTypeSetter -> {
-                builder.setupAsSetter(entityDefinition, type.parameterName, hasRx2Processor)
+                builder.setupAsSetter(entityDefinition, type.parameterName, hasRx3Processor)
             }
         }.build()
     }
@@ -54,11 +54,11 @@ object InMemoryNonReactiveMethodSpecBuilder {
     private fun MethodSpec.Builder.setupAsSetter(
         entityDefinition: InMemoryEntityDefinition,
         parameterName: String,
-        hasRx2Processor: Boolean
+        hasRx3Processor: Boolean
     ): MethodSpec.Builder =
         addParameter(entityDefinition.className, parameterName)
             .apply {
-                if (hasRx2Processor) {
+                if (hasRx3Processor) {
                     addCode(buildProcessorOnNextCode(parameterName))
                 } else {
                     addModifiers(Modifier.SYNCHRONIZED)

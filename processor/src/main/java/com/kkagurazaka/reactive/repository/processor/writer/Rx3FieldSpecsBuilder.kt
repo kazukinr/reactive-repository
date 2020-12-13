@@ -7,12 +7,12 @@ import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.ParameterizedTypeName
 import javax.lang.model.element.Modifier
 
-object Rx2FieldSpecsBuilder {
+object Rx3FieldSpecsBuilder {
 
     fun build(entityDefinition: EntityDefinition<*>): List<FieldSpec> {
         val processor = FieldSpec
             .builder(
-                ParameterizedTypeName.get(Types.rx2BehaviorProcessor, entityDefinition.className),
+                ParameterizedTypeName.get(Types.rx3BehaviorProcessor, entityDefinition.className),
                 "processor",
                 Modifier.PRIVATE
             )
@@ -20,7 +20,7 @@ object Rx2FieldSpecsBuilder {
 
         val field = FieldSpec
             .builder(
-                ParameterizedTypeName.get(Types.rx2FlowableProcessor, entityDefinition.className),
+                ParameterizedTypeName.get(Types.rx3FlowableProcessor, entityDefinition.className),
                 "serialized",
                 Modifier.PRIVATE
             )

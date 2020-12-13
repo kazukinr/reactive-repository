@@ -7,7 +7,7 @@ import javax.lang.model.element.Modifier
 
 object PrefsNonReactiveMethodSpecBuilder {
 
-    fun build(definition: MethodDefinition<PrefsEntityDefinition>, hasRx2Processor: Boolean): MethodSpec? {
+    fun build(definition: MethodDefinition<PrefsEntityDefinition>, hasRx3Processor: Boolean): MethodSpec? {
         val entityDefinition = definition.entityDefinition
 
         val builder = MethodSpec.methodBuilder(definition.methodName)
@@ -15,7 +15,7 @@ object PrefsNonReactiveMethodSpecBuilder {
             .addAnnotation(Override::class.java)
 
         return when (val type = definition.type) {
-            is MethodDefinition.Type.Rx2Observable, is MethodDefinition.Type.Rx2Flowable -> {
+            is MethodDefinition.Type.Rx3Observable, is MethodDefinition.Type.Rx3Flowable -> {
                 return null
             }
             is MethodDefinition.Type.NullableGetter,
@@ -25,13 +25,13 @@ object PrefsNonReactiveMethodSpecBuilder {
                     .addGetPreferenceCode(entityDefinition)
             }
             is MethodDefinition.Type.NullableSetter -> {
-                builder.setupAsNullableSetter(entityDefinition, type.parameterName, hasRx2Processor)
+                builder.setupAsNullableSetter(entityDefinition, type.parameterName, hasRx3Processor)
             }
             is MethodDefinition.Type.NonNullSetter -> {
-                builder.setupAsNonNullSetter(entityDefinition, type.parameterName, hasRx2Processor)
+                builder.setupAsNonNullSetter(entityDefinition, type.parameterName, hasRx3Processor)
             }
             is MethodDefinition.Type.PlatFormTypeSetter -> {
-                builder.setupAsNullableSetter(entityDefinition, type.parameterName, hasRx2Processor)
+                builder.setupAsNullableSetter(entityDefinition, type.parameterName, hasRx3Processor)
             }
         }.build()
     }
@@ -46,18 +46,18 @@ object PrefsNonReactiveMethodSpecBuilder {
     private fun MethodSpec.Builder.setupAsNullableSetter(
         entityDefinition: PrefsEntityDefinition,
         parameterName: String,
-        hasRx2Processor: Boolean
+        hasRx3Processor: Boolean
     ): MethodSpec.Builder =
         addParameter(entityDefinition.className, parameterName)
             .apply {
-                if (hasRx2Processor) {
+                if (hasRx3Processor) {
                     addProcessorInitializeCode()
                 }
             }
-            .addClearPreferenceCode(entityDefinition, parameterName, hasRx2Processor)
+            .addClearPreferenceCode(entityDefinition, parameterName, hasRx3Processor)
             .addStoreToPreferenceCode(entityDefinition, parameterName)
             .apply {
-                if (hasRx2Processor) {
+                if (hasRx3Processor) {
                     addProcessorOnNextCode(parameterName)
                 }
             }
@@ -65,17 +65,17 @@ object PrefsNonReactiveMethodSpecBuilder {
     private fun MethodSpec.Builder.setupAsNonNullSetter(
         entityDefinition: PrefsEntityDefinition,
         parameterName: String,
-        hasRx2Processor: Boolean
+        hasRx3Processor: Boolean
     ): MethodSpec.Builder =
         addParameter(entityDefinition.className, parameterName)
             .apply {
-                if (hasRx2Processor) {
+                if (hasRx3Processor) {
                     addProcessorInitializeCode()
                 }
             }
             .addStoreToPreferenceCode(entityDefinition, parameterName)
             .apply {
-                if (hasRx2Processor) {
+                if (hasRx3Processor) {
                     addProcessorOnNextCode(parameterName)
                 }
             }
@@ -86,7 +86,7 @@ object PrefsNonReactiveMethodSpecBuilder {
     private fun MethodSpec.Builder.addClearPreferenceCode(
         entityDefinition: PrefsEntityDefinition,
         parameterName: String,
-        hasRx2Processor: Boolean
+        hasRx3Processor: Boolean
     ): MethodSpec.Builder =
         beginControlFlow("if (\$L == null)", parameterName)
             .addCode(
@@ -96,7 +96,7 @@ object PrefsNonReactiveMethodSpecBuilder {
                 )
             )
             .apply {
-                if (hasRx2Processor) {
+                if (hasRx3Processor) {
                     addStatement("serialized.onNext(new \$T())", entityDefinition.className)
                 }
             }

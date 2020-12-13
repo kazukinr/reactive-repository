@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @InMemoryRepository(InMemoryFieldEntity.class)
-public interface InMemoryFieldEntityNullableSetterWithRx2Repository {
+public interface InMemoryFieldEntityNullableSetterWithRx3Repository {
 
     @NotNull
     Observable<InMemoryFieldEntity> observe();

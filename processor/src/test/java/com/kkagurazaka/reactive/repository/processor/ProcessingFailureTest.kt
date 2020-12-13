@@ -132,13 +132,13 @@ class ProcessingFailureTest {
     }
 
     @Test
-    fun `@Nullable setter and Rx2 integration`() {
+    fun `@Nullable setter and Rx3 integration`() {
         assertProcessingFailure(
             sources = listOf(
                 "InMemoryFieldEntity.java",
-                "InMemoryFieldEntityNullableSetterWithRx2Repository.java"
+                "InMemoryFieldEntityNullableSetterWithRx3Repository.java"
             ),
-            errorContaining = "@InMemoryRepository does not accept @Nullable setter with RxJava2 integration"
+            errorContaining = "@InMemoryRepository does not accept @Nullable setter with RxJava3 integration"
         )
     }
 

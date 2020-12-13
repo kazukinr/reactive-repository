@@ -66,6 +66,6 @@ abstract class RepositoryDefinition<R : Annotation, ED : EntityDefinition<out An
     inline fun <reified T : MethodDefinition.Type> has(): Boolean =
         methodDefinitions.any { it.type is T }
 
-    val hasRx2Methods: Boolean
-        get() = has<MethodDefinition.Type.Rx2Flowable>() || has<MethodDefinition.Type.Rx2Observable>()
+    val hasRx3Methods: Boolean
+        get() = has<MethodDefinition.Type.Rx3Flowable>() || has<MethodDefinition.Type.Rx3Observable>()
 }

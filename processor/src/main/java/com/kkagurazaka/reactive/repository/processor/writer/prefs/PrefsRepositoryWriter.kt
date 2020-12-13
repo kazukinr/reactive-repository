@@ -7,8 +7,8 @@ import com.kkagurazaka.reactive.repository.processor.definition.prefs.PrefsRepos
 import com.kkagurazaka.reactive.repository.processor.exception.ProcessingException
 import com.kkagurazaka.reactive.repository.processor.tools.Types
 import com.kkagurazaka.reactive.repository.processor.writer.RepositoryWriter
-import com.kkagurazaka.reactive.repository.processor.writer.Rx2FieldSpecsBuilder
-import com.kkagurazaka.reactive.repository.processor.writer.Rx2MethodSpecBuilder
+import com.kkagurazaka.reactive.repository.processor.writer.Rx3FieldSpecsBuilder
+import com.kkagurazaka.reactive.repository.processor.writer.Rx3MethodSpecBuilder
 import com.squareup.javapoet.CodeBlock
 import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.MethodSpec
@@ -25,7 +25,7 @@ class PrefsRepositoryWriter(context: ProcessingContext, definition: PrefsReposit
     override fun TypeSpec.Builder.setup(): TypeSpec.Builder {
         val entityDefinition = definition.entityDefinition
         val entityClassName = entityDefinition.className
-        val hasRx2Methods = definition.hasRx2Methods
+        val hasRx3Methods = definition.hasRx3Methods
 
         // private final Context context;
         val applicationContext = FieldSpec
@@ -59,22 +59,22 @@ class PrefsRepositoryWriter(context: ProcessingContext, definition: PrefsReposit
         addMethod(buildConstructorMethodSpec(entityDefinition))
 
         addMethods(definition.methodDefinitions.mapNotNull {
-            PrefsNonReactiveMethodSpecBuilder.build(it, hasRx2Methods)
+            PrefsNonReactiveMethodSpecBuilder.build(it, hasRx3Methods)
         })
 
         val getterDefinition = definition.methodDefinitions.firstOrNull {
             it.type is MethodDefinition.Type.NonNullGetter || it.type is MethodDefinition.Type.PlatFormTypeGetter
         }
 
-        if (hasRx2Methods) {
+        if (hasRx3Methods) {
             val processorPrepareStatement = CodeBlock.builder()
                 .addStatement("initProcessor()")
                 .build()
-            addFields(Rx2FieldSpecsBuilder.build(entityDefinition))
+            addFields(Rx3FieldSpecsBuilder.build(entityDefinition))
             addMethods(definition.methodDefinitions.mapNotNull {
-                Rx2MethodSpecBuilder.build(it, processorPrepareStatement)
+                Rx3MethodSpecBuilder.build(it, processorPrepareStatement)
             })
-            addMethod(buildRx2ProcessorInitializeMethodSpec(getterDefinition))
+            addMethod(buildRx3ProcessorInitializeMethodSpec(getterDefinition))
         }
         if (getterDefinition == null) {
             val method = PrefsNonReactiveMethodSpecBuilder.buildPrivateGetter(
@@ -153,7 +153,7 @@ class PrefsRepositoryWriter(context: ProcessingContext, definition: PrefsReposit
             )
             .build()
 
-    private fun buildRx2ProcessorInitializeMethodSpec(getterDefinition: MethodDefinition<*>?): MethodSpec =
+    private fun buildRx3ProcessorInitializeMethodSpec(getterDefinition: MethodDefinition<*>?): MethodSpec =
         MethodSpec.methodBuilder("initProcessor")
             .addModifiers(Modifier.PRIVATE, Modifier.SYNCHRONIZED)
             .addCode(
@@ -167,7 +167,7 @@ class PrefsRepositoryWriter(context: ProcessingContext, definition: PrefsReposit
                         } else {
                             CodeBlock.builder().add("get()").build()
                         }
-                        Rx2FieldSpecsBuilder.buildInitializeStatement(createDefaultCode)
+                        Rx3FieldSpecsBuilder.buildInitializeStatement(createDefaultCode)
                             .forEach { add(it) }
                     }
                     .build()

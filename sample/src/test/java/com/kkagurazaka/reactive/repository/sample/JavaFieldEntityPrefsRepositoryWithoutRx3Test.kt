@@ -10,17 +10,20 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
-class JavaFieldEntityPrefsRepositoryWithoutRx2Test {
+class JavaFieldEntityPrefsRepositoryWithoutRx3Test {
 
     private val context = ApplicationProvider.getApplicationContext<Context>()
     private lateinit var preferences: SharedPreferences
-    private lateinit var repository: JavaFieldEntityPrefsRepositoryWithoutRx2
+    private lateinit var repository: JavaFieldEntityPrefsRepositoryWithoutRx3
 
     @Before
     fun setup() {
         preferences = context.getSharedPreferences("java_field_entity", Context.MODE_PRIVATE)
             .apply { edit().clear().apply() }
-        repository = JavaFieldEntityPrefsRepositoryWithoutRx2Impl(context)
+        repository =
+            JavaFieldEntityPrefsRepositoryWithoutRx3Impl(
+                context
+            )
     }
 
     @Test

@@ -5,7 +5,7 @@ import androidx.annotation.Nullable;
 import com.kkagurazaka.reactive.repository.annotation.PrefsRepository;
 
 @PrefsRepository(JavaFieldEntity.class)
-public interface JavaFieldEntityPrefsRepositoryWithoutRx2 {
+public interface JavaFieldEntityPrefsRepositoryWithoutRx3 {
 
     @NonNull
     JavaFieldEntity get();
