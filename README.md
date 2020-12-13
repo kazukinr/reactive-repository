@@ -1,9 +1,17 @@
 # Reactive Repository
 
-[![](https://jitpack.io/v/k-kagurazaka/reactive-repository.svg)](https://jitpack.io/#k-kagurazaka/reactive-repository)
-[![CircleCI](https://circleci.com/gh/k-kagurazaka/reactive-repository.svg?style=svg)](https://circleci.com/gh/k-kagurazaka/reactive-repository)
+[![](https://jitpack.io/v/kazukinr/reactive-repository.svg)](https://jitpack.io/#kazukinr/reactive-repository)
 
 Repository code generator with Reactive Programming for Android
+
+This library is based on [k-kagurazaka/reactive-repository](https://github.com/k-kagurazaka/reactive-repository) that is distributed in the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).  
+Changes from the original library are listed in the [CHANGELOG.md](CHANGELOG.md).
+
+## Compatibility
+
+RxJava3 is only supported as a ReactiveX implementation.  
+If you want to use this library with RxJava2, please use the [original](https://github.com/k-kagurazaka/reactive-repository) worked by k-kagurazaka.
+
 
 ## Download
 
@@ -13,8 +21,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.k-kagurazaka.reactive-repository:annotation:x.y.z'
-    annotationProcessor 'com.github.k-kagurazaka.reactive-repository:processor:x.y.z'
+    implementation 'com.github.kazukinr.reactive-repository:annotation:2.0.0-alpha5'
+    annotationProcessor 'com.github.kazukinr.reactive-repository:processor:2.0.0-alpha5'
 }
 ```
 
@@ -173,6 +181,21 @@ If you violate a following limitation, annotation processing will be failed.
 
 ## License
 
+    Copyright 2020 Kazuki Nara
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    
+    
     Copyright 2019 Keita Kagurazaka
 
     Licensed under the Apache License, Version 2.0 (the "License");
