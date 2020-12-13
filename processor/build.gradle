@@ -19,9 +19,12 @@ dependencies {
     implementation 'com.google.auto.service:auto-service:1.0-rc7'
     kapt 'com.google.auto.service:auto-service:1.0-rc7'
 
-    testImplementation 'io.reactivex.rxjava2:rxjava:2.2.9'
+    testImplementation 'io.reactivex.rxjava3:rxjava:3.0.8'
     testImplementation 'org.jetbrains:annotations:16.0.2'
     testImplementation 'junit:junit:4.13.1'
     testImplementation 'com.google.truth:truth:0.44'
     testImplementation 'com.google.testing.compile:compile-testing:0.18'
 }
+
+targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_1_8

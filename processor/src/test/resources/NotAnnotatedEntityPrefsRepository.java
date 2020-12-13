@@ -1,6 +1,6 @@
 import com.kkagurazaka.reactive.repository.annotation.PrefsRepository;
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
 
 @PrefsRepository(NotAnnotatedEntity.class)
 public interface NotAnnotatedEntityPrefsRepository {
