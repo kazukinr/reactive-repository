@@ -1,5 +1,5 @@
 import com.kkagurazaka.reactive.repository.annotation.InMemoryRepository;
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import org.jetbrains.annotations.NotNull;
 
 @InMemoryRepository(InMemoryFieldEntity.class)
