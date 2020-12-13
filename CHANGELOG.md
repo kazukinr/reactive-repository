@@ -1,4 +1,4 @@
-## [2.0.0-alpha5] - 2020/12/13
+## 2.0.0-alpha1 - 2020/12/13
 
 ### Changes
 - The referenced ReactiveX library has been changed to RxJava3

@@ -21,8 +21,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.kazukinr.reactive-repository:annotation:2.0.0-alpha5'
-    annotationProcessor 'com.github.kazukinr.reactive-repository:processor:2.0.0-alpha5'
+    implementation 'com.github.kazukinr.reactive-repository:annotation:2.0.0-alpha1'
+    annotationProcessor 'com.github.kazukinr.reactive-repository:processor:2.0.0-alpha1'
 }
 ```
 
